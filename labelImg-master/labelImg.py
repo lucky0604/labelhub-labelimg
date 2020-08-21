@@ -118,8 +118,9 @@ def loadLabels(shapes, labelCategories):
 
             shape.close()
             yield cat_id, shape
+
 class LoginWindow(QWidget):
-    show_main_win_signal = pyqtSignal()
+    show_project_win_signal = pyqtSignal()
     def __init__(self):
         super(LoginWindow, self).__init__()
         self.init_ui()
@@ -154,10 +155,31 @@ class LoginWindow(QWidget):
         print(resp)
         print(resp['code'], ' --- resp code ---')
         if resp['code'] == 1:
-            self.show_main_win_signal.emit()
+            self.show_project_win_signal.emit()
 
     def setInfo(self):
         self.textEdit.setText('Test')
+
+
+class ProjectListWindow(QWidget):
+    show_main_win_signal = pyqtSignal()
+
+    def __init__(self):
+        super(ProjectListWindow, self).__init__()
+        self.init_ui()
+
+    def init_ui(self):
+        layout = QHBoxLayout()
+        table = QTableWidget()
+        table.setColumnCount(3)
+        horizontal_header = ["项目名称", '项目编号']
+        table.setHorizontalHeaderLabels(horizontal_header)
+        layout.addWidget(table)
+        self.setLayout(layout)
+
+    def go_main(self):
+        self.show_main_win_signal.emit()
+
 
 class MainWindow(QMainWindow, WindowMixin):
     FIT_WINDOW, FIT_WIDTH, MANUAL_ZOOM = list(range(3))
@@ -1811,7 +1833,12 @@ def get_main_app(argv=[]):
 def show_main():
     mainWin.show()
     subWin.hide()
+    projectWin.hide()
 
+def show_project():
+    projectWin.show()
+    mainWin.hide()
+    subWin.hide()
 
 def main(argv=[]):
     '''construct main app and run it'''
@@ -1830,6 +1857,8 @@ if __name__ == '__main__':
         )
     )
     subWin = LoginWindow()
+    projectWin = ProjectListWindow()
     subWin.show()
-    subWin.show_main_win_signal.connect(show_main)
+    subWin.show_project_win_signal.connect(show_project)
+    projectWin.show_main_win_signal.connect(show_main)
     sys.exit(main(sys.argv))
