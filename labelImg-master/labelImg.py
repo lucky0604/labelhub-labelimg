@@ -8,6 +8,7 @@ import sys
 import subprocess
 import requests
 import json
+import base64
 
 from functools import partial
 from collections import defaultdict
@@ -141,10 +142,10 @@ class LoginWindow(QWidget):
         self.show()
 
     def go_main(self):
-
+        password = self.password.text().encode('utf-8')
         params = {
             'account': (None, self.name.text()),
-            'password': (None, self.password.text()),
+            'password': (None, base64.b64encode(password)),
             'language': (None, 'en')
         }
         res_data = requests.post('http://labelhub-cookie.awkvector.com/api/login', files=params)
