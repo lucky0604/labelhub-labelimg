@@ -1,0 +1,4 @@
+<10% occluded
+10~50% occluded
+>50% occluded
+contains other objects
