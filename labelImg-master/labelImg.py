@@ -172,7 +172,22 @@ class ProjectListWindow(QWidget):
         layout = QHBoxLayout()
         table = QTableWidget()
         table.setColumnCount(3)
-        horizontal_header = ["项目名称", '项目编号']
+        table.setItem(
+            table.rowCount(),
+            0,
+            'test'
+        )
+        table.setItem(
+            table.rowCount(),
+            1,
+            'test'
+        )
+        table.setItem(
+            table.rowCount(),
+            2,
+            'test'
+        )
+        horizontal_header = (["项目名称", '项目编号', '操作'])
         table.setHorizontalHeaderLabels(horizontal_header)
         layout.addWidget(table)
         self.setLayout(layout)
